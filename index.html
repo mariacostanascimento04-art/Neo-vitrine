@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neo Vitrine | Alta Costura & Luxo</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="top-bar">Frete Grátis Global para Compras Acima de R$ 2.000</div>
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="#produtos" onclick="filterCategory('all')">Todos</a>
+                <a href="#produtos" onclick="filterCategory('feminino')">Feminino</a>
+                <a href="#produtos" onclick="filterCategory('masculino')">Masculino</a>
+                <a href="#produtos" onclick="filterCategory('calcados')">Calçados</a>
+                <a href="#produtos" onclick="filterCategory('acessorios')">Acessórios</a>
+            </div>
+            
+            <div class="logo">NEO VITRINE</div>
+            
+            <div class="nav-right">
+                <button class="icon-btn" id="search-btn"><i class="fas fa-search"></i></button>
+                <button class="icon-btn" id="cart-btn">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span id="cart-count">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Banner Principal -->
+    <section class="hero-banner" style="background-image: url('https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1800&q=90');">
+        <div class="hero-overlay">
+            <div class="hero-content">
+                <p class="subtitle">HIGH FASHION & LUXURY ACCESSORIES</p>
+                <h1>Elegância Sem Limites</h1>
+                <a href="#produtos" class="btn-primary">Explorar Coleção</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Catálogo de Produtos -->
+    <main class="container" id="produtos">
+        <h2 class="section-title">Nossa Coleção Exclusiva</h2>
+        <p class="section-subtitle">Peças de alta costura, calçados e acessórios selecionados</p>
+
+        <!-- Filtros Rápidos -->
+        <div class="category-filters">
+            <button class="filter-btn active" onclick="filterCategory('all', this)">Ver Todos</button>
+            <button class="filter-btn" onclick="filterCategory('feminino', this)">Feminino</button>
+            <button class="filter-btn" onclick="filterCategory('masculino', this)">Masculino</button>
+            <button class="filter-btn" onclick="filterCategory('calcados', this)">Calçados</button>
+            <button class="filter-btn" onclick="filterCategory('bolsas', this)">Bolsas</button>
+            <button class="filter-btn" onclick="filterCategory('acessorios', this)">Acessórios & Joias</button>
+            <button class="filter-btn" onclick="filterCategory('moda', this)">Moda</button>
+        </div>
+
+        <div class="product-grid" id="product-grid">
+            <!-- Os produtos serão renderizados via Script JS -->
+        </div>
+    </main>
+
+    <!-- Drawer / Modal do Carrinho -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <aside class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3>Seu Carrinho de Luxo</h3>
+            <button class="close-btn" id="close-cart">&times;</button>
+        </div>
+        <div class="cart-body" id="cart-items">
+            <!-- Itens do Carrinho vão aqui -->
+        </div>
+        <div class="cart-footer">
+            <div class="payment-group">
+                <label for="payment-method">Forma de pagamento</label>
+                <select id="payment-method">
+                    <option value="Pix" selected>Pix</option>
+                    <option value="Banco do Brasil">Banco do Brasil</option>
+                    <option value="Itaú">Itaú</option>
+                    <option value="Bradesco">Bradesco</option>
+                    <option value="Santander">Santander</option>
+                </select>
+            </div>
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cart-total-price">R$ 0,00</span>
+            </div>
+            <button class="btn-checkout" onclick="checkout()">Finalizar Compra</button>
+        </div>
+    </aside>
+
+    <!-- Confirmação de compra -->
+    <div class="checkout-modal" id="checkout-modal" aria-hidden="true">
+        <div class="checkout-modal-content" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+            <button class="checkout-close" type="button" aria-label="Fechar confirmação" onclick="fecharConfirmacao()">&times;</button>
+            <div class="checkout-seal"><i class="fas fa-check"></i></div>
+            <p class="checkout-brand">NEO VITRINE</p>
+            <h2 id="checkout-title">Compra finalizada</h2>
+            <p class="checkout-message">Agradecemos por escolher a Neo Vitrine. Seu pedido foi recebido com sucesso e será preparado com todo o cuidado que uma seleção de luxo merece.</p>
+            <p class="checkout-message">Nossa equipe acompanhará cada etapa para que sua experiência seja tão especial quanto as peças escolhidas. Esperamos que você aproveite sua compra.</p>
+            <p class="checkout-payment" id="checkout-payment"></p>
+            <div class="pix-payment" id="pix-payment" aria-hidden="true">
+                <p class="pix-title">QR Code Pix</p>
+                <img id="pix-qr" src="" alt="QR Code Pix da Neo Vitrine">
+                <p class="pix-note">QR Code demonstrativo. Para receber pagamentos reais, conecte uma chave Pix ou gateway de pagamento.</p>
+            </div>
+            <button class="btn-continue" type="button" onclick="fecharConfirmacao()">Continuar navegando</button>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h3>NEO VITRINE</h3>
+                <p>O epicentro do luxo e do estilo sofisticado contemporâneo.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Atendimento</h4>
+                <a href="#">Concierge Exclusivo</a>
+                <a href="#">Trocas & Devoluções</a>
+                <a href="#">Rastreamento de Pedido</a>
+            </div>
+            <div class="footer-col">
+                <h4>Newsletter</h4>
+                <p>Receba convites para vendas privadas e novas coleções.</p>
+                <div class="newsletter-input">
+                    <input type="email" placeholder="Seu e-mail de luxo">
+                    <button>Inscrever</button>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Neo Vitrine Haute Couture. Todos os direitos reservados.
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
